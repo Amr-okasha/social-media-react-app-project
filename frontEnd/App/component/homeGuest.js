@@ -13,8 +13,14 @@ const HomeGuest = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
-  const [data, setData] = useState({ username: username, email: email, password: password })
+  const [data, setData] = useState({ username: "", email: "", password: "" })
+  const handleInput = ({ target: input }) => {
+    console.log(input)
+    const datastore = data
+    datastore[input.name] = input.value
+    setData({ ...datastore })
 
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log("here we are")
@@ -22,7 +28,7 @@ const HomeGuest = () => {
       await axios({
         method: "post",
         url: "http://localhost:8080/register",
-        data: { username: username, email: email, password: password }
+        data
       })
       console.log("it was created")
     } catch (ex) {
@@ -61,8 +67,8 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="Pick a username"
                     autoComplete="off"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    value={data.username}
+                    onChange={(e) => handleInput(e)}
                   />
                 </div>
                 <div className="form-group">
@@ -76,8 +82,8 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="you@example.com"
                     autoComplete="off"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={data.email}
+                    onChange={(e) => handleInput(e)}
                   />
                 </div>
                 <div className="form-group">
@@ -90,8 +96,8 @@ const HomeGuest = () => {
                     className="form-control"
                     type="password"
                     placeholder="Create a password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    value={data.password}
+                    onChange={(e) => handleInput(e)}
                   />
                 </div>
                 <button

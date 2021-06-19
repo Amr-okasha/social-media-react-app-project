@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PageTitle from "./pageTitle";
 import usePageTitle from "./pageTitle";
 import axios from "axios"
+import useCustomInput from './useCustom/useCustomInput';
 export const WideContext = React.createContext()
 
 
@@ -13,14 +14,9 @@ const HomeGuest = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [email, setEmail] = useState("")
-  const [data, setData] = useState({ username: "", email: "", password: "" })
-  const handleInput = ({ target: input }) => {
-    console.log(input)
-    const datastore = data
-    datastore[input.name] = input.value
-    setData({ ...datastore })
 
-  }
+  const [handleInput, data] = useCustomInput("")
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log("here we are")

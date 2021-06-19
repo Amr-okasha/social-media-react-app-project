@@ -1,9 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle from "./pageTitle";
 import usePageTitle from "./pageTitle";
 import axios from "axios"
 export const WideContext = React.createContext()
+
+
+
+
 const HomeGuest = () => {
+
+
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [email, setEmail] = useState("")
+  const [data, setData] = useState({ username: username, email: email, password: password })
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     console.log("here we are")
@@ -11,7 +22,7 @@ const HomeGuest = () => {
       await axios({
         method: "post",
         url: "http://localhost:8080/register",
-        data: { username: "amrelsayed", email: "amr@example.com", password: "12aaaaaaaaaaaaaaaaa3456a" }
+        data: { username: username, email: email, password: password }
       })
       console.log("it was created")
     } catch (ex) {
@@ -50,6 +61,8 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="Pick a username"
                     autoComplete="off"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -63,6 +76,8 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="you@example.com"
                     autoComplete="off"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -75,6 +90,8 @@ const HomeGuest = () => {
                     className="form-control"
                     type="password"
                     placeholder="Create a password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
                 <button

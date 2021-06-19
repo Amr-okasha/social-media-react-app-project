@@ -10,12 +10,13 @@ export const WideContext = React.createContext()
 
 const HomeGuest = () => {
 
+  const [username, bindUserName, resetUserName] = useCustomInput("")
+  const [password, bindPassword, resetPassword] = useCustomInput("")
+  const [email, bindEmail, resetEmail] = useCustomInput("")
 
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [email, setEmail] = useState("")
-
-  const [handleInput, data] = useCustomInput("")
+  // const [email, setEmail] = useState()
+  // const [password, setPassword] = useState()
+  // const [username, setUsername] = useState()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -24,15 +25,18 @@ const HomeGuest = () => {
       await axios({
         method: "post",
         url: "http://localhost:8080/register",
-        data
+        data: { username, password, email }
       })
       console.log("it was created")
+
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
         console.log(ex.response.data)
       else { console.log(ex.response.data) }
     }
-
+    resetUserName
+    resetPassword
+    resetEmail
 
   }
 
@@ -63,8 +67,7 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="Pick a username"
                     autoComplete="off"
-                    value={data.username}
-                    onChange={(e) => handleInput(e)}
+                    {...bindUserName}
                   />
                 </div>
                 <div className="form-group">
@@ -78,8 +81,7 @@ const HomeGuest = () => {
                     type="text"
                     placeholder="you@example.com"
                     autoComplete="off"
-                    value={data.email}
-                    onChange={(e) => handleInput(e)}
+                    {...bindEmail}
                   />
                 </div>
                 <div className="form-group">
@@ -92,8 +94,7 @@ const HomeGuest = () => {
                     className="form-control"
                     type="password"
                     placeholder="Create a password"
-                    value={data.password}
-                    onChange={(e) => handleInput(e)}
+                    {...bindPassword}
                   />
                 </div>
                 <button

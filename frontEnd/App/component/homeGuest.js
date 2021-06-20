@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import PageTitle from "./pageTitle";
 import usePageTitle from "./pageTitle";
 import axios from "axios"
+import useCustomInput from './useCustom/useCustomInput';
+import SignUp from "./form/signup";
 export const WideContext = React.createContext()
 
 
@@ -9,36 +11,6 @@ export const WideContext = React.createContext()
 
 const HomeGuest = () => {
 
-
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [email, setEmail] = useState("")
-  const [data, setData] = useState({ username: "", email: "", password: "" })
-  const handleInput = ({ target: input }) => {
-    console.log(input)
-    const datastore = data
-    datastore[input.name] = input.value
-    setData({ ...datastore })
-
-  }
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log("here we are")
-    try {
-      await axios({
-        method: "post",
-        url: "http://localhost:8080/register",
-        data
-      })
-      console.log("it was created")
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        console.log(ex.response.data)
-      else { console.log(ex.response.data) }
-    }
-
-
-  }
 
   return (
     <WideContext.Provider value={{ wide: true }}>
@@ -55,58 +27,7 @@ const HomeGuest = () => {
               </p>
             </div>
             <div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
-              <form onSubmit={(e) => handleSubmit(e)}>
-                <div className="form-group">
-                  <label htmlFor="username-register" className="text-muted mb-1">
-                    <small>Username</small>
-                  </label>
-                  <input
-                    id="username-register"
-                    name="username"
-                    className="form-control"
-                    type="text"
-                    placeholder="Pick a username"
-                    autoComplete="off"
-                    value={data.username}
-                    onChange={(e) => handleInput(e)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="email-register" className="text-muted mb-1">
-                    <small>Email</small>
-                  </label>
-                  <input
-                    id="email-register"
-                    name="email"
-                    className="form-control"
-                    type="text"
-                    placeholder="you@example.com"
-                    autoComplete="off"
-                    value={data.email}
-                    onChange={(e) => handleInput(e)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="password-register" className="text-muted mb-1">
-                    <small>Password</small>
-                  </label>
-                  <input
-                    id="password-register"
-                    name="password"
-                    className="form-control"
-                    type="password"
-                    placeholder="Create a password"
-                    value={data.password}
-                    onChange={(e) => handleInput(e)}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="py-3 mt-4 btn btn-lg btn-success btn-block"
-                >
-                  Sign up for ComplexApp
-                </button>
-              </form>
+              <SignUp />
             </div>
           </div>
         </div>

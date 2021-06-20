@@ -16,9 +16,9 @@ const SinglePost = () => {
 
         <p className="text-muted small mb-4">
             <Link to="#">
-                <img className="avatar-tiny" src={context.info.avatar} />
+                <img className="avatar-tiny" src={context.state.info.avatar} />
             </Link>
-            Posted by <Link to="#">{context.info.username}</Link> on 2/10/2020
+            Posted by <Link to="#">{context.state.info.username}</Link> on 2/10/2020
         </p>
         <div className="body-content">
             <p>Lorem ipsum dolor sit <strong>example</strong> post adipisicing elit. Iure ea at esse, tempore qui possimus soluta impedit natus voluptate, sapiente saepe modi est pariatur. Aut voluptatibus aspernatur fugiat asperiores at.</p>

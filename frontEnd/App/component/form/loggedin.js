@@ -5,8 +5,10 @@ import { NavLink } from 'react-router-dom'
 
 const Loggedin = (props) => {
     const context = useContext(UserContext)
+    console.log(context.state, "dsfdsfsdf")
+    console.log(context.state.dispatch)
     const handleLogOut = () => {
-        context.setLoggedin(false)
+        context.dispatch({ type: "logout" })
         localStorage.removeItem("jwt")
     }
     return (<div className="flex-row my-3 my-md-0">
@@ -18,7 +20,7 @@ const Loggedin = (props) => {
             <span className="chat-count-badge text-white"> </span>
         </span>
         <NavLink to="#" className="mr-2">
-            <img className="small-header-avatar" src={context.info.avatar} />
+            <img className="small-header-avatar" src={context.state.info.avatar} />
         </NavLink>
         <NavLink className="btn btn-sm btn-success mr-2" to="/create-post">
             Create Post

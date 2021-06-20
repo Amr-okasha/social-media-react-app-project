@@ -13,41 +13,51 @@ import SinglePost from "./component/singlePost";
 import FlashMessages from './component/messages/flashMessages';
 
 export const UserContext = React.createContext()
-// const initialState = { loggein: false, info: { avatar: "", username: "", id: "" }, flashMessages: [] }
-// const reducer = (currentState, acion) => {
-//   switch (acion.type) {
-//     case "login":
-//       return { loggein: true, info: { avatar: action.value.avatar, username: action.value.username, id: action.value._id }, ...flashMessages }
-//     case "logout":
-//       return { loggein: false, info: { avatar: "", username: "", id: "" }, ...flashMessages }
-//     case "msg":
-//       return { ...loggein, ...info, flashMessages: currentState.concat(action.value) }
-//     default:
-//       currentState
-//   }
-// }
+const initialState = { loggein: false, info: { avatar: "", username: "", id: "" }, flashMessages: [] }
+const reducer = (currentState, action) => {
+  console.log(action && action.value, "acion.value")
+  switch (action.type) {
+    case "login":
+      return { loggein: true, info: { avatar: " action.value.avatar", username: " action.value.username ", id: "action.value._id " }, flashMessages: currentState.flashMessages }
+    case "logout":
+      return { loggein: false, info: { avatar: "", username: "", id: "" }, flashMessages: currentState.flashMessages }
+    case "msg":
+      return { loggein: currentState.loggein, info: currentState.info, flashMessages: currentState.flashMessages.concat(action.value) }
+    default:
+      currentState
+  }
+}
 const Main = () => {
 
-  // const [state, dispatch] = useReducer(reducer, initialState)
-  const [loggein, setLoggedin] = useState(false)
-  const [info, setInfo] = useState({ avatar: "", username: "", id: "" })
-  const [flashMessages, setFlashMessages] = useState([])
+  const [state, dispatch] = useReducer(reducer, initialState)
+  // const [loggein, setLoggedin] = useState(false)
+  // const [info, setInfo] = useState({ avatar: "", username: "", id: "" })
+  // const [flashMessages, setFlashMessages] = useState([])
 
-
-  const addFlashMessages = (msg) => {
-    setFlashMessages(prev => prev.concat(msg))
-  }
+  console.log(state.loggein, "state.loggin")
+  // const addFlashMessages = (msg) => {
+  //   // setFlashMessages(prev => prev.concat(msg))
+  //   dispatch({ type: "msg", value: msg })
+  // }
   useEffect(() => {
     const token = localStorage.getItem("jwt")
     if (token) {
       const auth = jwtDecode(token)
-      if (auth) { setLoggedin(true); setInfo({ avatar: auth.avatar, username: auth.username, id: auth._id }); console.log(auth, "check") } else { setLoggedin(false) }
+      if (auth) {
+        // setLoggedin(true); setInfo({ avatar: auth.avatar, username: auth.username, id: auth._id });
+        dispatch({ type: "login", value: auth })
+        console.log(auth, "checkkkkkkkkkk")
+      }
+      else {
+        // setLoggedin(false) 
+        dispatch({ type: "logout" })
+      }
 
-    }
+    } else { dispatch({ type: "logout" }) }
   }, [])
   return (
     <>
-      <UserContext.Provider value={{ loggein, info, flashMessages, setLoggedin, addFlashMessages }}>
+      <UserContext.Provider value={{ state, dispatch }}>
         <  FlashMessages />
         <Header />
         <Switch>
@@ -55,8 +65,8 @@ const Main = () => {
           <Route path="/create-post" component={CreatePost} />
           <Route path="/about-us" component={About} />
           <Route path="/terms" component={Terms} />
-          {!loggein ? <Route path="/" exact component={HomeGuest} />
-            : <Route path="/" exact component={Home} />}
+          {state.loggein ? <Route path="/" exact component={Home} /> : <Route path="/" exact component={HomeGuest} />
+          }
           <Redirect to="/" />
         </Switch>
         <Footer />

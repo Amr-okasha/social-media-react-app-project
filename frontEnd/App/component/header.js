@@ -19,7 +19,7 @@ const Header = () => {
               ComplexApp
             </Link>
           </h4>
-          {!context.loggein ? <LoggedOut /> : <Loggedin />}
+          {context.state.loggein ? <Loggedin /> : <LoggedOut />}
         </div>
       </header>
     </>

@@ -21,7 +21,7 @@ const LoggedOut = (props) => {
             if (response.data) {
                 console.log(response.data.token)
                 localStorage.setItem("jwt", response.data.token)
-                context.setLoggedin(true)
+                context.dispatch({ type: "login" })
             } else { console.log("incorrect data") }
 
         } catch (ex) {

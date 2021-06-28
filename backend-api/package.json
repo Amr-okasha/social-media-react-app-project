@@ -9,7 +9,7 @@
   },
   "scripts": {
     "watch": "nodemon db",
-    "start": "node db",
+    "start": "nodemon node db",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
